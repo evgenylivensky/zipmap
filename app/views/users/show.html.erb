@@ -1,0 +1,82 @@
+<script type="text/javascript">
+  var map, circle, circleOptions, marker;
+
+  function initMap() {
+    var myLatlng = new google.maps.LatLng(<%= @user.latitude %>, <%= @user.longitude %>);
+    var myOptions = {
+      zoom: 12,
+      center: myLatlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+
+    map = new google.maps.Map(document.getElementById("google_map"), myOptions);
+
+    circleOptions = {
+      fillColor: "#00AAFF",
+      fillOpacity: 0.5,
+      strokeColor: "#FFAA00",
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      clickable: false,
+      center: myLatlng,
+      radius: 3000
+    }
+
+    var marker = new google.maps.Marker({
+      position: myLatlng,
+      title: 'Примерное местоположение'
+    });
+
+    marker.setMap(map);
+
+    circle = new google.maps.Circle(circleOptions);
+    circle.setMap(map);
+  }
+
+  function loadScript() {
+    var script = document.createElement("script");
+    script.src = "https://maps.google.com/maps/api/js?callback=initMap";
+    document.body.appendChild(script);
+  }
+
+  window.onload = loadScript;
+</script>
+<div style="width: 1000px">
+  <div style="float: left; width: 290px">
+    <p id="notice"><%= notice %></p>
+    <p>
+      <strong>Name:</strong>
+      <%= @user.name %>
+    </p>
+    <p>
+      <strong>Email:</strong>
+      <%= @user.email %>
+    </p>
+    <p>
+      <strong>Zipcode:</strong>
+      <%= @user.zipcode %>
+    </p>
+    <p>
+      <strong>City:</strong>
+      <%= @user.city %>
+    </p>
+    <p>
+      <strong>Address:</strong>
+      <%= @user.address %>
+    </p>
+    <p>
+      <strong>Latitude:</strong>
+      <%= @user.latitude %>
+    </p>
+    <p>
+      <strong>Longitude:</strong>
+      <%= @user.longitude %>
+    </p>
+    <%= link_to 'Edit', edit_user_path(@user) %> |
+    <%= link_to 'Back', users_path %>
+  </div>
+  <div style="float: right;">
+    <div id="google_map" style="width: 700px; height: 700px;"></div>
+  </div>
+  <div style="clear: both"></div>
+</div>
